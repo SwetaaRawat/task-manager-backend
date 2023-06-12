@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
@@ -5,10 +6,10 @@ const mysql = require("mysql2");
 const cors = require("cors");
 
 const db = mysql.createPool({
-    host: "localhost",
-    user: "root",
-    password: "Sweta@24",
-    database: "crud_personaltask"
+    host: process.env.HOST,
+    user: process.env.USER,
+    password:process.env.PASSWORD,
+    database:process.env.DATABASE
 });
 
 app.use(cors());
@@ -42,8 +43,6 @@ app.delete("/api/remove/:id", (req, res) => {
     })
 })
 
-
-
 app.get("/api/get/:id", (req, res) => {
     const {id} = req.params;
     const sqlGet = "Select * FROM personaltask_db where id = ?";
@@ -67,20 +66,6 @@ app.put("/api/update/:id", (req, res) => {
     });
 });
 
-
-
-
-app.get("/", (req, res) =>{
-    // const sqlInsert = 
-    // "INSERT INTO personaltask_db(task, discription) VALUES ('demo 2', 'demo discription 2')";
-    // db.query(sqlInsert, (error, result)=>{
-    //     console.log("error",error);
-    //     console.log("result", result);
-    //     res.send("Hello");
-    // });
- 
-});
-
-app.listen(5000, () => {
+app.listen(process.env.PORT, () => {
     console.log("Server is running on port 5000");
 });
